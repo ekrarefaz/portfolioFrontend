@@ -16,12 +16,12 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .home{
   /* Use the full height of the viewport */
-  min-height: 90vh;
+  min-height: 100vh;
   
-  background-color: antiquewhite;
+  background-color: #212121;
 
   /* Set up the background image to cover the entire container */
   background-size: cover;

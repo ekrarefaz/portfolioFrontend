@@ -6,7 +6,15 @@
         <h1>{{ currentGreeting }}</h1>
         <h2>I'm Ekrar Efaz</h2>
         <p>Welcome to my digital domain, where passion for Cyber-Security and mastery in Computer Science converge.</p>
-        <v-btn color="grey" dark>Download CV</v-btn>
+        <div class="home-btn">
+          <router-link :to="{ name: 'home' }">
+            <v-btn color="grey" dark>Download CV</v-btn>
+          </router-link>          
+          <router-link :to="{ name: 'about' }">
+            <v-btn color="grey" dark>More about me</v-btn>
+          </router-link>
+        </div>
+
       </v-col>
       <v-col cols="12" md="6" class="text-md-right text-center align-self-center">
         <!-- Your image -->
@@ -37,19 +45,32 @@ export default {
         'Sveiki',   // Latvian
         'Salaam',   // Arabic
     ],
-      currentGreeting: 'Hello',
+      currentGreeting: '',
+      fullGreeting: 'Hello',
       greetingIndex: 0,
-      interval: null
+      interval: null,
+      typingSpeed: 150,
     }
   },
   methods: {
     changeGreeting() {
+      clearInterval(this.interval);
       this.greetingIndex = (this.greetingIndex + 1) % this.greetings.length;
-      this.currentGreeting = this.greetings[this.greetingIndex];
-    }
+      this.fullGreeting = this.greetings[this.greetingIndex];
+      this.currentGreeting = '';
+      this.typeGreeting(0);
+    },
+    typeGreeting(index) {
+      if (index < this.fullGreeting.length) {
+        this.currentGreeting += this.fullGreeting[index];
+        setTimeout(() => this.typeGreeting(index + 1), this.typingSpeed);
+      } else {
+        this.interval = setInterval(this.changeGreeting, 4000); // Change greeting every 4 seconds
+      }
+    },
   },
   mounted() {
-    this.interval = setInterval(this.changeGreeting, 4000); // Change every 2000 milliseconds (2 seconds)
+    this.typeGreeting(0);
   },
   beforeUnmount() {
     clearInterval(this.interval);
@@ -64,5 +85,12 @@ export default {
   border-radius: 2%; /* Makes the image round */
   /* Add object-fit to ensure the image covers the area without distortion */
   object-fit: cover; 
+}
+.home-btn{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 45%;
+  margin-top: 20px;
 }
 </style>
