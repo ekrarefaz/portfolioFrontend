@@ -66,8 +66,8 @@
         activeColor: '#33ff33',
         companies: [
       {
-        name: "Swan Foresight Pty. Ltd.",
-        activeStep: 0,
+        name: "Swan Foresight Pty. Ltd. (2023 - Current)",
+        activeStep: 2,
         positions: [
           {
             title: 'Intern',
@@ -132,6 +132,57 @@
         },
         ]
       },
+      {
+        name: "Swinburne Capstone Project (2023)",
+        activeStep: 0,
+        positions: 
+        [
+            {
+            title: 'Developer',
+            description: 
+            [
+                "Studied different security frameworks and standards to understand the security requirements of the project.",
+                "Conducted research on Incident Response best practices to understand the requirements of the project.",
+                "Designed a proprietary algorithm to evaluate incident response exercises leveraging client-specific datasets.",
+                "Engineered the scoring system using R and ensured its robustness through tesFhat evaluations.",
+                "Pioneered a web-based dashboard interface to provide a visual representation of outcomes, optimizing user accessibility to critical security metrics.",
+            ],
+            tools :
+            [
+                "R",
+                "Mitre Attack Framework",
+                "Bash",
+                "Trello",
+                "Agile",
+            ]
+          },
+        ]
+      },
+      {
+        name: "The Perfect Landlord Dec'22 - Mar'23",
+        activeStep: 0,
+        positions: 
+        [
+            {
+            title: 'Intern',
+            description: 
+            [
+                "Develop new user-facing features using Vue.js",
+                "Build reusable components and libraries for future use",
+                "Collaborate with designers to ensure the technical feasibility of UI/UX designs",
+                "Maintain healthy repository of Version Control System",
+                "Understand the business needs and maintain communcation with the client",
+            ],
+            tools :
+            [
+                "VueJS",
+                "Django Rest Framework",
+                "Git",
+                "Figma",
+            ]
+          },
+        ]
+      }
       // ... additional companies as needed
     ],
       };
@@ -171,6 +222,9 @@
     width: 100%;
   }
   
+  h2{
+    color: #33ff33;
+  }
   .v-stepper-vertical{
     background-color: transparent;
     width: 100vw;

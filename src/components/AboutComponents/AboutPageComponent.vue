@@ -8,41 +8,42 @@
   
       <v-tabs-items v-model="tab">
         <v-tab-item v-for="item in tabs" :key="item">
-          <!-- You can add your custom content for each tab here -->
-          <div v-if="item === 'About'">
-            <!-- About content -->
-          </div>
-          <div v-if="item === 'Experience'">
-            <ExperienceSectionComponent/>
-          </div>
-          <div v-if="item === 'Certification'">
-            <!-- Certification content -->
-          </div>
-          <div v-if="item === 'Projects'">
-            <!-- Projects content -->
-          </div>
-          <div v-if="item === 'Education'">
-            <!-- Education content -->
-          </div>
+          <component :is="currentTabComponent"></component>
         </v-tab-item>
       </v-tabs-items>
     </v-container>
   </template>
   
-  <script>
 
-  import ExperienceSectionComponent from '@/components/AboutComponents/ExperienceSectionComponent.vue'
+<script>
+import AboutComponent from '@/components/AboutComponents/MainSectionComponent.vue';
+import ExperienceSectionComponent from '@/components/AboutComponents/ExperienceSectionComponent.vue';
+import ProjectsComponent from '@/components/AboutComponents/ProjectsComponent.vue';
 
-  export default {
-    data() {
-      return {
-        tab: null,
-        tabs: ['About', 'Experience', 'Certification', 'Projects', 'Education']
-      };
-    },
-    components: {
-      ExperienceSectionComponent
+export default {
+  data() {
+    return {
+      tab: null,
+      tabs: ['About', 'Experience', 'Projects',]
+    };
+  },
+  components: {
+    AboutComponent,
+    ExperienceSectionComponent,
+    ProjectsComponent,
+  },
+  computed: {
+    currentTabComponent() {
+      switch (this.tabs[this.tab]) {
+        case 'About': return AboutComponent;
+        case 'Experience': return ExperienceSectionComponent;
+        case 'Projects': return ProjectsComponent;
+        default: return null;
+      }
     }
-  };
-  </script>
+  }
+};
+</script>
+
+
   
