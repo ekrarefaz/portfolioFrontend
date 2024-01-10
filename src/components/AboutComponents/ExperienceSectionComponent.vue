@@ -4,55 +4,37 @@
         <!-- Loop through each company -->
         <div v-for="(company, companyIndex) in companies" :key="`company-${companyIndex}`">
           <h2>{{ company.name }}</h2>
-          <v-stepper v-model="company.activeStep" vertical>
-            <!-- Stepper header for selecting positions -->
-            <v-stepper-header>
-                <template v-for="(position, positionIndex) in company.positions" :key="`step-title-${positionIndex}`">
-                  <v-stepper-step
-                    :complete="company.activeStep > positionIndex"
-                    :step="positionIndex"
-                    @click="setActiveStep(company, positionIndex)"
-                    :style="getStepStyle(company, positionIndex)"
-                  >
-                    {{ position.title }}
-                  </v-stepper-step>
-                  <v-divider v-if="positionIndex < company.positions.length - 1"></v-divider>
-                </template>
-            </v-stepper-header>
-            
-            <!-- Stepper content for showing descriptions -->
-            <v-stepper-items>
-                <v-stepper-content
-                v-for="(position, positionIndex) in company.positions"
-                :key="`step-content-${positionIndex}`"
-                :step="positionIndex"
-              >
-                <div v-if="company.activeStep === positionIndex">
-                  <v-card flat class="mb-4">
-                    <!-- Job Description -->
-                    <v-card-title>Job Description</v-card-title>
-                    <v-card-text>
-                      <ul>
-                        <li v-for="(item, itemIndex) in position.description" :key="`desc-item-${itemIndex}`">
-                          {{ item }}
-                        </li>
-                      </ul>
-                    </v-card-text>
-            
-                    <!-- Tools Used -->
-                    <v-card-title>Tools Used</v-card-title>
-                    <v-card-text>
-                      <ul>
-                        <li v-for="(tool, toolIndex) in position.tools" :key="`tool-item-${toolIndex}`">
-                          {{ tool }}
-                        </li>
-                      </ul>
-                    </v-card-text>
-                  </v-card>
-                </div>
-              </v-stepper-content>
-            </v-stepper-items>
-          </v-stepper>
+  
+          <!-- Timeline with consistent alignment -->
+          <v-timeline dense>
+            <!-- Loop through each position -->
+            <v-timeline-item fill-dot dot-color="#ffff33" size="x-small" v-for="(position, positionIndex) in company.positions" :key="`position-${positionIndex}`">
+              
+              <!-- Year as main content on the left side -->
+              <div class="pt-1 headline font-weight-bold">{{ position.year }}</div>
+  
+              <!-- Position title and details on the right side -->
+              <v-card @click="toggleDetails(companyIndex, positionIndex)" class="mb-2">
+                <v-card-title class="headline font-weight-light">{{ position.title }}</v-card-title>
+                <v-expand-transition>
+                  <v-card-text v-if="position.showDetails">
+                    <div>Job Description</div>
+                    <ul>
+                      <li v-for="(item, itemIndex) in position.description" :key="`desc-item-${itemIndex}`">
+                        {{ item }}
+                      </li>
+                    </ul>
+                    <div>Tools Used</div>
+                    <ul>
+                      <li v-for="(tool, toolIndex) in position.tools" :key="`tool-item-${toolIndex}`">
+                        {{ tool }}
+                      </li>
+                    </ul>
+                  </v-card-text>
+                </v-expand-transition>
+              </v-card>
+            </v-timeline-item>
+          </v-timeline>
         </div>
       </v-container>
     </v-app>
@@ -66,10 +48,12 @@
         activeColor: '#33ff33',
         companies: [
       {
-        name: "Swan Foresight Pty. Ltd. (2023 - Current)",
+        name: "Swan Foresight Pty. Ltd.",
         activeStep: 2,
         positions: [
           {
+            showDetails: false,
+            year: "Dec'22 - Feb'23",
             title: 'Intern',
             description: 
             [
@@ -87,6 +71,8 @@
             ]
           },
           {
+            showDetails: false,
+            year: "Feb'23 - May'23",
             title: 'Security Automation Programmer',
             description: 
             [
@@ -106,6 +92,8 @@
             ]
           },
           {
+            showDetails: false,
+            year: "May'23 - Now",
             title: 'Junior Software Developer',
             description: 
             [
@@ -133,11 +121,13 @@
         ]
       },
       {
-        name: "Swinburne Capstone Project (2023)",
+        name: "Swinburne Capstone Project",
         activeStep: 0,
         positions: 
         [
             {
+            showDetails: false,
+            year: "Jan'23 - Dec'23",
             title: 'Developer',
             description: 
             [
@@ -159,11 +149,13 @@
         ]
       },
       {
-        name: "The Perfect Landlord Dec'22 - Mar'23",
+        name: "The Perfect Landlord",
         activeStep: 0,
         positions: 
         [
             {
+            showDetails: false,
+            year: "Jan'23 - Mar'23",
             title: 'Intern',
             description: 
             [
@@ -188,6 +180,10 @@
       };
     },
     methods: {
+      toggleDetails(companyIndex, positionIndex) {
+      const position = this.companies[companyIndex].positions[positionIndex];
+      position.showDetails = !position.showDetails;
+    },
       setActiveStep(company, step) {
         company.activeStep = step;
       },
@@ -210,7 +206,7 @@
         // Other default styles
       };
     }
-  },
+    },
     },
   };
   </script>
@@ -250,33 +246,48 @@
     
   }
   
-  .v-card-title {
-    font-weight: bold;
+  /* Smaller text for timeline content */
+  .v-timeline-item p,
+  .v-timeline-item ul,
+  .v-timeline-item .text-h6 {
+    font-size: 18px; /* Adjust this value as needed */
   }
 
-  .active-step {
-    color: #33ff33 
-  }
-  
-  .active-step .v-stepper__step {
-    /* Adjust these styles according to your needs */
-    background-color: #33ff33 !important; /* Force override */
-    color: #212121 !important;
+
+  /* Style for the timeline icons */
+  .v-timeline-item .v-icon {
+    font-size: 24px; /* Adjust the font size of the icon */
+    color: #4caf50; /* Color of the icon */
   }
 
-  .active-step .v-stepper__step--active {
-    color: #33ff33 !important;
+  /* Style for the timeline icon background and border */
+  .v-timeline-item .v-timeline-item__icon {
+    background-color: #ffff33; /* Background color of the icon */
+    border: 2px solid #4caf50; /* Border color and size */
   }
 
-  .v-card-text {
-    font-size: 20px; /* Set the desired font size */
-  }
+  /* Media query for small screens (e.g., phones) */
+  @media (max-width: 600px) {
+    /* Adjust font sizes for smaller screens */
+    .v-timeline-item p,
+    .v-timeline-item ul,
+    .v-timeline-item .text-h6,
+    .v-timeline-item .v-card-title {
+      font-size: 12px;
+    }
 
-  /* If you want to specifically target list items */
-  .job-description li, .tools-list li {
-    font-size: 16px; /* Set the desired font size */
-  }
+    /* Adjust icon sizes for smaller screens */
+    .v-timeline-item .v-icon {
+      font-size: 18px;
+    }
 
-  /* Additional styles to match your theme */
+    /* Adjust icon container for smaller screens */
+    .v-timeline-item .v-timeline-item__icon {
+      width: 24px;
+      height: 24px;
+      line-height: 24px;
+    }
+}
+
   </style>
   

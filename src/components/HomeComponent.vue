@@ -7,11 +7,15 @@
         <h2>I'm Ekrar Efaz</h2>
         <p>Welcome to my digital domain, where passion for Cyber-Security and mastery in Computer Science converge.</p>
         <div class="home-btn">
-          <router-link :to="{ name: 'home' }">
-            <v-btn color="grey" dark>Download CV</v-btn>
-          </router-link>          
+          <!-- LinkedIn Button -->
+          <a :href="linkedinUrl" target="_blank">
+            <v-btn  dark>
+              <v-icon left>mdi-linkedin</v-icon>
+              LinkedIn
+            </v-btn>
+          </a>        
           <router-link :to="{ name: 'about' }">
-            <v-btn color="grey" dark>More about me</v-btn>
+            <v-btn dark>More about me</v-btn>
           </router-link>
         </div>
 
@@ -31,6 +35,7 @@ import profilePic from '@/assets/profile-pic-nobg.png'
 export default {
   data() {
     return {
+      linkedinUrl: 'https://www.linkedin.com/in/secureekrarefaz/',
       profilePic,
       greetings: [
         'Hello',    // English
